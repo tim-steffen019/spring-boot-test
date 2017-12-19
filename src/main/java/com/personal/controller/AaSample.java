@@ -1,41 +1,41 @@
 package com.personal.controller;
 
-import org.apache.commons.io.IOUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.personal.bean.InputWrapper;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.ServletContext;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Created by tim on 6/28/17.
  */
 @RestController
 public class AaSample {
-    @Autowired
-    ServletContext servletContext;
 
-    @RequestMapping(value = "/hi")
-    public String index(){
-        return "<!DOCTYPE html>\n" +
-                "<PASTE HERE>";
+    @RequestMapping(value = "/post", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public void postTest(@RequestBody InputWrapper inputToTest) throws IOException {
+
+
+
+        String testing = "{\"title\" : \"hi\",\n" +
+                "\"inputToTest\":[\n" +
+                "{\"name\":\"Tim\",\n" +
+                "\"color\": \"  the proof  \"},\n" +
+                "{\"name\":\"Joe\",\n" +
+                "\"color\": \" Red  dfa  \"}\n" +
+                "\t]\n" +
+                "}";
+
+        ObjectMapper mapper = new ObjectMapper();
+       InputWrapper iw =  mapper.readValue(testing, InputWrapper.class);
+       iw.getInputToTest().stream().forEach(input ->
+               System.out.println(
+                       "Name :" + input.getName() + ": Color :" + input.getColor() + ":"));
+
     }
-    @RequestMapping("/photo2")
-    public ResponseEntity<byte[]> testphoto() throws IOException {
-        File file = new File("/home/tim/Downloads/nasa.jpg");
-        InputStream targetStream = new FileInputStream(file);
 
-        final HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.IMAGE_PNG);
-
-        return new ResponseEntity<byte[]>(IOUtils.toByteArray(targetStream), headers, HttpStatus.CREATED);
-    }
 }
