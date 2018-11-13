@@ -23,7 +23,7 @@
     <scm>
 	<connection>git@github.com:tim-steffen019/spring-boot-test.git</connection>
 	<tag>HEAD</tag>
-	<url>https://github.com/tim-steffen019/spring-boot-test.git</url>
+	<url>https://github.com/tim-steffen019/spring-boot-test</url>
     </scm>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot -->
